@@ -1,0 +1,18 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import url('https://static.imken.moe/fonts/SourceHanSerifSC-VF/main.css');
+
+a:focus,
+a:active {
+	outline: 1px #cc9aa2;
+	outline-style: dashed;
+}
+
+.link-hover:hover {
+	text-decoration: underline;
+}
+
+body {
+	font-family: 'Source Han Serif SC VF';
+}
