@@ -5,8 +5,8 @@
 
 a:focus,
 a:active {
-	outline: 1px #cc9aa2;
-	outline-style: dashed;
+	background: #cc9aa2;
+	color: white;
 }
 
 .link-hover:hover {
@@ -22,3 +22,25 @@ article.prose {
 	font-size: inherit;
 	max-width: unset;
 }
+
+article.prose {
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+
+.shiki {
+	border: 1px solid #cc9aa2;
+	width: 100%;
+	overflow-x: auto;
+}
+
+.shiki::-webkit-scrollbar {
+	height: 5px;
+	/* background-color: gray; */
+}
+
+.shiki::-webkit-scrollbar-thumb {
+	height: 5px;
+	background-color: #cc9aa2;
+}
+

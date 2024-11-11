@@ -11,15 +11,18 @@ declare global {
 		// interface Platform {}
 
 		interface Post {
-			title: string
-			headerImage: string
-			date: string
+			title: string;
+			headerImage?: string;
+			date: Date;
 
-			categories: string[]
-			tags: string[]
+			categories: string[];
+			tags: string[];
 
-			description: string
-			content: string
+			description: string;
+			html: string;
+
+			priority: number;
+			slug: string;
 		}
 	}
 

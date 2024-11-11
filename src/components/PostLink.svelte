@@ -3,8 +3,8 @@
 	import MdiCollection from '~icons/mdi/collection';
 
 	export let description = '',
-		title = '',
-		href = '',
+		title: string,
+		href: string,
 		date: Date | string = 'unknown',
 		tags: string[] = [],
 		categories: string[] = [];

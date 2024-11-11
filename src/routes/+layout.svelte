@@ -7,11 +7,12 @@
 
 <div class="text-base w-4/5 mx-auto">
 	<Header />
-	<div class="grid md:grid-cols-3 grid-flow-row gap-2">
+	<div class="md:grid md:grid-cols-3 grid-flow-row gap-2">
 		<main class="col-span-2">
 			<slot />
 		</main>
-
+		
 		<Sidebar />
 	</div>
 </div>
+
