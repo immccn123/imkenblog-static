@@ -16,3 +16,9 @@ a:active {
 body {
 	font-family: 'Source Han Serif SC VF';
 }
+
+article.prose {
+	line-height: unset;
+	font-size: inherit;
+	max-width: unset;
+}

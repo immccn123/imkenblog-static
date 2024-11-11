@@ -9,6 +9,18 @@ declare global {
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
+
+		interface Post {
+			title: string
+			headerImage: string
+			date: string
+
+			categories: string[]
+			tags: string[]
+
+			description: string
+			content: string
+		}
 	}
 
 	declare module '*.md' {
