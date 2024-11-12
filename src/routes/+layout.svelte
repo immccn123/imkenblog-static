@@ -1,18 +1,16 @@
 <script lang="ts">
 	import '../app.css';
+	import Footer from '../components/Footer.svelte';
 
 	import Header from '../components/Header.svelte';
-	import Sidebar from '../components/Sidebar.svelte';
 </script>
 
-<div class="text-base w-4/5 mx-auto">
+<div class="text-base px-5 mx-auto container max-w-[1200px]">
 	<Header />
-	<div class="md:grid md:grid-cols-3 grid-flow-row gap-2">
-		<main class="col-span-2">
-			<slot />
-		</main>
-		
-		<Sidebar />
-	</div>
-</div>
 
+	<main class="col-span-2">
+		<slot />
+	</main>
+
+	<Footer />
+</div>

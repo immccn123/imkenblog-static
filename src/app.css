@@ -5,8 +5,7 @@
 
 a:focus,
 a:active {
-	background: #cc9aa2;
-	color: white;
+	outline: gainsboro dotted 1px;
 }
 
 .link-hover:hover {
@@ -17,30 +16,36 @@ body {
 	font-family: 'Source Han Serif SC VF';
 }
 
-article.prose {
-	line-height: unset;
-	font-size: inherit;
-	max-width: unset;
-}
-
-article.prose {
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-}
-
 .shiki {
-	border: 1px solid #cc9aa2;
+	border: 1px solid #c9717e;
 	width: 100%;
 	overflow-x: auto;
 }
 
 .shiki::-webkit-scrollbar {
 	height: 5px;
-	/* background-color: gray; */
 }
 
 .shiki::-webkit-scrollbar-thumb {
 	height: 5px;
-	background-color: #cc9aa2;
+	background-color: #c9717e;
 }
 
+.icon {
+	display: inline-block;
+}
+
+.icon.icon-link::after {
+	content: "#";
+	margin: 10px;
+}
+
+a:focus.icon.icon-link,
+a:active.icon.icon-link {
+	color: unset !important;
+	background-color: unset;
+}
+
+::selection {
+	background-color: #c9717e34;
+}

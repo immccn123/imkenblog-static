@@ -12,7 +12,7 @@
 	let showNav = false;
 </script>
 
-<div class="my-5">
+<div id="header" class="my-5">
 	<header>
 		<div id="site-meta">
 			<div id="site-logo" class="text-4xl text-link">
@@ -29,7 +29,7 @@
 			<MdiMenu />
 		</button>
 		<div
-			class="max-md:fixed max-md:bg-white max-md:border max-md:p-3 max-md:rounded z-99"
+			class="max-md:fixed max-md:bg-white max-md:border max-md:p-3 max-md:rounded z-50"
 			class:max-md:hidden={!showNav}
 		>
 			<ul id="main-nav" class="flex flex-col md:flex-row md:gap-5 gap-2">

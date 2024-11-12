@@ -1,11 +1,15 @@
 <script lang="ts">
 	import MdiTag from '~icons/mdi/tag';
 	import MdiCollection from '~icons/mdi/collection';
+	import 'katex/dist/katex.css';
 
 	export let data;
 </script>
 
-<article class="prose w-full">
+<article class="prose mx-auto">
+	{#if data.headerImage}
+		<img src={data.headerImage} alt="Header image of {data.title}" />
+	{/if}
 	<h1>{data.title}</h1>
 	<div class="flex flex-row items-center gap-2">
 		<MdiTag class="inline-block text-sm" />
@@ -36,10 +40,25 @@
 		</span>
 	</div>
 
-	{@html data.html}
+	<div id="content">
+		{@html data.html}
+	</div>
 </article>
 
-<blockquote class="text-black">
-	Copyright (C) Imken Luo<br>
-	This post is licensed under CC-BY-NC-SA 4.0.
+<blockquote class="text-black my-3 border-l-4 pl-5">
+	Copyright (C) Imken Luo<br />
+	This post is licensed under
+	<a class="text-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed"
+		>CC-BY-NC-SA 4.0</a
+	>.
 </blockquote>
+
+<style>
+	.prose {
+		line-height: unset;
+		font-size: inherit;
+		max-width: 1024px;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+</style>

@@ -9,7 +9,7 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				link: '#cc9aa2',
+				link: '#c9717e',
 				base: '#666'
 			},
 			fontSize: {

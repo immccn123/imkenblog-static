@@ -4,7 +4,7 @@
 	let posts = data.sortedByDate;
 </script>
 
-<ol class="relative border-s border-gray-200">
+<ol class="relative border-s border-gray-200 max-w-[1024px] mx-auto">
 	{#each posts as { year, months }}
 		<li class="mb-3 ms-4">
 			<div
@@ -14,7 +14,6 @@
 		</li>
 		{#each months as { posts }}
 			{#each posts as post}
-				<!-- <PostLink href="/archives/{post.slug}" {...post} /> -->
 				<li class="mb-3 ms-4">
 					<div
 						class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"

@@ -1,5 +1,5 @@
 import { getPost } from '$lib/post';
-import { error } from 'console';
+import { error } from '@sveltejs/kit';
 import type { EntryGenerator } from './$types';
 
 export const entries: EntryGenerator = async () => {
@@ -10,7 +10,7 @@ export const entries: EntryGenerator = async () => {
 
 export const load = async ({ params }) => {
 	const posts = await getPost();
+	if (!posts.slugMap.has(params.id)) error(404, 'Not Found');
 	const post = posts.slugMap.get(params.id);
-	if (post === undefined) error(404, 'Not Found');
 	return post!;
 };

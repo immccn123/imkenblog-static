@@ -29,10 +29,14 @@ declare global {
 	declare module '*.md' {
 		import type { SvelteComponent } from 'svelte';
 
-		export default class Comp extends SvelteComponent {}
+		export default class Comp extends SvelteComponent { }
 
 		export const metadata: Record<string, unknown>;
 	}
+
+	declare module 'https://data.imken.moe/links.js' {
+		export default [];
+	}
 }
 
-export {};
+export { };

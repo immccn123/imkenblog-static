@@ -1,3 +1,5 @@
+/// <reference types="rehype" />
+
 import { glob } from 'glob';
 import * as fs from 'node:fs/promises';
 import { remark } from 'remark';
@@ -8,6 +10,10 @@ import rehypeShiki from '@shikijs/rehype';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
 import remarkFromtmatter from 'remark-frontmatter';
+import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import { visit } from 'unist-util-visit'
+
 import * as toml from 'js-toml';
 import { JSDOM } from 'jsdom';
 import type { VFile } from 'vfile';
@@ -24,6 +30,7 @@ declare module 'vfile' {
 			categories?: string[];
 			description?: string;
 			priority?: number;
+			header?: string;
 		};
 		title: string;
 	}
@@ -56,6 +63,20 @@ function getFrontmatter() {
 	};
 }
 
+function rewriteUrl() {
+	return (ast: import('hast').Root) => {
+		visit(ast, 'element', (node) => {
+			if (node.tagName === "a") {
+				const href = node.properties.href;
+				if (href === undefined || href === null) return;
+				if (href.toString().match(/^(http|https):\/\//)) {
+					node.properties.target = "_blank noreferrer noopener";
+				}
+			}
+		})
+	}
+}
+
 const markdownProcesser = remark()
 	.use(remarkGfm)
 	.use(remarkFromtmatter, ['toml', 'yaml'])
@@ -63,10 +84,14 @@ const markdownProcesser = remark()
 	.use(getFrontmatter)
 	.use(remarkFirstH1Line)
 	.use(remarkRehype)
+	.data('settings', { fragment: true })
 	.use(rehypeKatex)
+	.use(rehypeSlug)
+	.use(rehypeAutolinkHeadings, { behavior: 'append' })
 	.use(rehypeShiki, {
 		themes: { light: 'vitesse-light' }
 	})
+	.use(rewriteUrl)
 	.use(rehypeStringify);
 
 let posts: App.Post[] = [];
@@ -87,6 +112,10 @@ type SortedPostsTimelineItem = {
 };
 
 if (import.meta.hot) {
+	import.meta.hot.on('update', () => {
+		isCached = false;
+	});
+
 	import.meta.hot.on('full-reload', () => {
 		isCached = false;
 	});
@@ -121,7 +150,8 @@ export async function getPost() {
 			(new JSDOM(html).window.document.body.textContent ?? '').slice(0, 140) + '[...]';
 		const categories = frontmatter.categories ?? [];
 		const priority = frontmatter.priority ?? 5;
-		const postItem: App.Post = { html, title, date, description, tags, categories, priority, slug };
+		const headerImage = frontmatter.header
+		const postItem: App.Post = { html, title, date, description, tags, categories, priority, slug, headerImage };
 		slugMap.set(slug, postItem);
 		for (const tag of tags) {
 			if (!byTag[tag]) byTag[tag] = [] as App.Post[];
