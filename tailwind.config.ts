@@ -10,7 +10,8 @@ export default {
 		extend: {
 			colors: {
 				link: '#c9717e',
-				base: '#666'
+				base: '#666',
+				impink: '#c9717e'
 			},
 			fontSize: {
 				sm: '0.8em',

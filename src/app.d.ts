@@ -19,7 +19,7 @@ declare global {
 			tags: string[];
 
 			description: string;
-			html: string;
+			html?: string;
 
 			priority: number;
 			slug: string;
@@ -29,7 +29,7 @@ declare global {
 	declare module '*.md' {
 		import type { SvelteComponent } from 'svelte';
 
-		export default class Comp extends SvelteComponent { }
+		export default class Comp extends SvelteComponent {}
 
 		export const metadata: Record<string, unknown>;
 	}
@@ -39,4 +39,4 @@ declare global {
 	}
 }
 
-export { };
+export {};

@@ -10,14 +10,16 @@ import rehypeShiki from '@shikijs/rehype';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
 import remarkFromtmatter from 'remark-frontmatter';
-import rehypeSlug from 'rehype-slug'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import { visit } from 'unist-util-visit'
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import { visit } from 'unist-util-visit';
 
-import * as toml from 'js-toml';
+import * as toml from '@std/toml';
+
 import { JSDOM } from 'jsdom';
 import type { VFile } from 'vfile';
 import path from 'node:path';
+import { eraseHtml } from '$lib';
 
 const PER_PAGE = 10;
 
@@ -25,7 +27,7 @@ declare module 'vfile' {
 	interface DataMap {
 		frontmatter: {
 			title?: string;
-			date?: string;
+			date?: string | Date;
 			tags?: string[];
 			categories?: string[];
 			description?: string;
@@ -56,7 +58,7 @@ function getFrontmatter() {
 	return (ast: import('mdast').Root, vfile: VFile) => {
 		for (const node of ast.children) {
 			if (node.type === 'yaml') {
-				const doc = toml.load(node.value);
+				const doc = toml.parse(node.value);
 				vfile.data.frontmatter = doc;
 			}
 		}
@@ -66,15 +68,15 @@ function getFrontmatter() {
 function rewriteUrl() {
 	return (ast: import('hast').Root) => {
 		visit(ast, 'element', (node) => {
-			if (node.tagName === "a") {
+			if (node.tagName === 'a') {
 				const href = node.properties.href;
 				if (href === undefined || href === null) return;
 				if (href.toString().match(/^(http|https):\/\//)) {
-					node.properties.target = "_blank noreferrer noopener";
+					node.properties.target = '_blank noreferrer noopener';
 				}
 			}
-		})
-	}
+		});
+	};
 }
 
 const markdownProcesser = remark()
@@ -126,7 +128,7 @@ export async function getPost() {
 		return { posts, byTag, byCategory, byDate, paginatedPosts, sortedByDate, slugMap };
 	}
 
-	const globs = await glob(`${import.meta.dirname}/../posts/*.md`);
+	const globs = await glob(`./src/posts/*.md`);
 	const result = [];
 	byTag = {};
 	byCategory = {};
@@ -135,6 +137,7 @@ export async function getPost() {
 	slugMap.clear();
 
 	for (const filename of globs) {
+		console.log("Rendering", filename)
 		const slug = path.parse(filename).name;
 		const markdown = await fs.readFile(filename, {
 			encoding: 'utf-8'
@@ -150,8 +153,18 @@ export async function getPost() {
 			(new JSDOM(html).window.document.body.textContent ?? '').slice(0, 140) + '[...]';
 		const categories = frontmatter.categories ?? [];
 		const priority = frontmatter.priority ?? 5;
-		const headerImage = frontmatter.header
-		const postItem: App.Post = { html, title, date, description, tags, categories, priority, slug, headerImage };
+		const headerImage = frontmatter.header;
+		const postItem: App.Post = {
+			html,
+			title,
+			date,
+			description,
+			tags,
+			categories,
+			priority,
+			slug,
+			headerImage
+		};
 		slugMap.set(slug, postItem);
 		for (const tag of tags) {
 			if (!byTag[tag]) byTag[tag] = [] as App.Post[];
@@ -190,7 +203,7 @@ export async function getPost() {
 		for (const month of Object.keys(byDate[+year]).sort((a, b) => +b - +a)) {
 			months.push({
 				month: +month,
-				posts: byDate[+year][+month]
+				posts: byDate[+year][+month].map(eraseHtml)
 			});
 		}
 		sortedByDate.push({

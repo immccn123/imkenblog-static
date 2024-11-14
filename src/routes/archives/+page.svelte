@@ -16,7 +16,7 @@
 			{#each posts as post}
 				<li class="mb-3 ms-4">
 					<div
-						class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
+						class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white"
 					></div>
 					<time class="mb-1 leading-none">
 						{post.date.toLocaleDateString()}

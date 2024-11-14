@@ -39,11 +39,11 @@
 					</li>
 				{/each}
 				<li class="grow max-md:hidden"></li>
-				<li>
-					<a class="text-link px-2 py-1" href="/feed" target="_blank">
+				<!-- <li>
+					<a class="text-link px-2 py-1" href="/feed.xml" target="_blank">
 						<MdiRssBox class="inline" /> RSS
 					</a>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 		<hr class="gray-200 mt-2" />
