@@ -1,0 +1,321 @@
+---
+import { type CollectionEntry, getEntry } from "astro:content";
+
+import FormattedDate from "../components/FormattedDate.astro";
+
+import MdiTag from "~icons/mdi/tag";
+import MdiCollection from "~icons/mdi/collection";
+import MdiAccessTime from "~icons/mdi/access-time";
+
+import "katex/dist/katex.css";
+
+type Props = {
+	post: CollectionEntry<"blog">;
+	next?: string;
+	prev?: string;
+	series?: {
+		name?: string;
+		posts: CollectionEntry<"blog">[];
+		description?: string;
+	};
+};
+
+const {
+	post: {
+		data: { title, date, header, tags, categories },
+		id: currentId,
+	},
+	next,
+	prev,
+	series,
+} = Astro.props;
+const nextPost = next !== undefined ? await getEntry("blog", next) : next;
+const prevPost = prev !== undefined ? await getEntry("blog", prev) : prev;
+
+const seriesPrev = series
+	? series.posts.findIndex((val) => val.id === currentId) - 1
+	: undefined;
+const seriesNext = series
+	? series.posts.findIndex((val) => val.id === currentId) + 1
+	: undefined;
+---
+
+<article class="prose prose-sm mx-auto">
+	{header && <img src={header} alt="Header image of {data.title}" />}
+	<h1 class="text-impink border-l-8 pl-5">{title}</h1>
+	<div class="align-middle">
+		<MdiTag class="inline-block text-sm mb-1" />
+		<span>
+			{
+				tags.length == 0
+					? "无标签"
+					: tags.map((tag, i) => (
+							<>
+								<a
+									class="link-hover inline-block"
+									href={`/tags/${tag}`}
+								>
+									{tag}
+								</a>
+								{i !== tags.length - 1 && " / "}
+							</>
+						))
+			}
+		</span>
+		<MdiCollection class="inline text-sm mb-1" />
+		<span>
+			{
+				categories.length == 0
+					? "无分类"
+					: categories.map((categoriy, i) => (
+							<>
+								<a
+									class="link-hover inline-block"
+									href={`/categories/${categoriy}`}
+								>
+									{categoriy}
+								</a>
+								{i !== categories.length - 1 && " / "}
+							</>
+						))
+			}
+		</span>
+		<MdiAccessTime class="inline text-sm mb-1" />
+		<span>
+			<FormattedDate {date} />
+		</span>
+	</div>
+
+	{
+		series && (
+			<div class="my-3 p-2 border-y-2 border-impink">
+				<span class="text-lg text-bold block">
+					文章系列：{series.name ?? "[未命名]"}
+				</span>
+				<ul>
+					{series.posts.map((post) => (
+						<li>
+							{currentId == post.id ? (
+								<span class="text-lg">
+									<span class="text-sm block">
+										<FormattedDate date={post.data.date} />
+									</span>
+									{post.data.title}
+								</span>
+							) : (
+								<a
+									class="text-link no-underline text-lg"
+									href={`/archives/${post.id}`}
+								>
+									<span class="text-sm block">
+										<FormattedDate date={post.data.date} />
+									</span>
+									{post.data.title}
+								</a>
+							)}
+						</li>
+					))}
+				</ul>
+			</div>
+		)
+	}
+
+	<div id="content">
+		<slot />
+	</div>
+
+	<blockquote class="text-gray my-3 border-l-4 pl-5">
+		Copyright (C) Imken Luo<br />
+		This post is licensed under
+		<a
+			class="text-link"
+			href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed"
+			>CC-BY-NC-SA 4.0</a
+		>.
+	</blockquote>
+</article>
+
+{
+	series && (
+		<div class="max-w-[1024px] p-3 text-content mx-auto bg-impink rounded mt-5">
+			<div class="text-xl text-center text-white font-bold">
+				本系列：{series.name ?? "未命名"}
+			</div>
+			<div class="lg:flex lg:justify-between mt-2">
+				{seriesPrev !== undefined &&
+					series.posts[seriesPrev] !== undefined && (
+						<a
+							href={`/archives/${series.posts[seriesPrev].id}`}
+							rel="prev"
+							class="mb-5 text-white inline-block max-lg:w-full"
+						>
+							<span class="text-lg">←上一篇</span>
+							<span class="block">
+								{series.posts[seriesPrev].data.title}
+							</span>
+						</a>
+					)}
+				{seriesNext !== undefined &&
+					series.posts[seriesNext] !== undefined && (
+						<a
+							href={`/archives/${series.posts[seriesNext].id}`}
+							rel="next"
+							class="mb-5 text-white ml-auto text-right inline-block max-lg:w-full"
+						>
+							<span class="text-lg">下一篇→</span>
+							<br />
+							{series.posts[seriesNext].data.title}
+						</a>
+					)}
+			</div>
+		</div>
+	)
+}
+
+<div
+	class="max-w-[1024px] text-content mx-auto lg:grid lg:grid-cols-2 lg:justify-stretch mt-10"
+>
+	{
+		prevPost && (
+			<a
+				href={`/archives/${prevPost.id}`}
+				rel="prev"
+				class="border-l border-t border-b max-lg:border-r rounded-l p-3 mb-5 text-link block max-lg:w-full"
+			>
+				<>
+					<span class="text-lg">←新一篇</span>
+					<br />
+				</>
+				{prevPost.data.title}
+			</a>
+		)
+	}
+	{
+		nextPost && (
+			<a
+				href={`/archives/${nextPost.id}`}
+				rel="next"
+				class="border rounded-r p-3 mb-5 text-md text-link text-right block max-lg:w-full"
+			>
+				<span class="text-lg">旧一篇→</span>
+				<br />
+				{nextPost.data.title}
+			</a>
+		)
+	}
+</div>
+
+<div class="max-w-[1024px] mb-5 giscus"></div>
+
+<style is:inline>
+	.prose {
+		line-height: unset;
+		max-width: 1024px;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+
+	.prose code span {
+		font-size: 0.8rem !important;
+	}
+
+	.shiki {
+		border: 1px solid #c9717e;
+		width: 100%;
+		overflow-x: auto;
+	}
+
+	.shiki::-webkit-scrollbar {
+		height: 5px;
+		width: 5px;
+	}
+
+	.shiki::-webkit-scrollbar-thumb {
+		height: 5px;
+		width: 5px;
+		background-color: #c9717e;
+	}
+
+	.icon {
+		display: inline-block;
+	}
+
+	.prose .icon.icon-link::before {
+		content: "#";
+		color: #c9717e;
+
+		display: inline-block;
+		padding-right: 3px;
+		opacity: 0;
+
+		transition: 0.1s;
+	}
+
+	.prose h1:hover .icon.icon-link::before,
+	.prose h2:hover .icon.icon-link::before,
+	.prose h3:hover .icon.icon-link::before,
+	.prose h4:hover .icon.icon-link::before,
+	.prose h5:hover .icon.icon-link::before,
+	.prose h6:hover .icon.icon-link::before {
+		opacity: 1;
+		transition: 0.1s;
+	}
+
+	.prose h1,
+	.prose h2,
+	.prose h3,
+	.prose h4,
+	.prose h5,
+	.prose h6 {
+		transform: translateX(-0.8em);
+	}
+
+	a:focus.icon.icon-link,
+	a:active.icon.icon-link {
+		color: unset !important;
+		background-color: unset;
+	}
+
+	.prose .shiki code .diff.remove {
+		background-color: #f43f5e24;
+		opacity: 0.7;
+	}
+
+	.prose .shiki code .diff.add {
+		background-color: #10b98124;
+	}
+
+	.prose code .highlighted {
+		background-color: #c9717e10;
+		transition: background-color 0.5s;
+	}
+
+	.shiki .line {
+		min-width: 100%;
+		width: auto;
+		padding: 0 1em;
+		display: inline-block;
+	}
+
+	.shiki {
+		padding: 0;
+	}
+</style>
+
+<script
+	is:inline
+	src="https://giscus.app/client.js"
+	data-repo="immccn123/imkenblog-static"
+	data-repo-id="R_kgDONNA2QQ"
+	data-category="Comments"
+	data-category-id="DIC_kwDONNA2Qc4CpuTm"
+	data-mapping="pathname"
+	data-strict="0"
+	data-reactions-enabled="1"
+	data-emit-metadata="0"
+	data-input-position="bottom"
+	data-theme="https://static.imken.moe/giscus.css"
+	data-lang="zh-CN"
+	data-loading="lazy"
+	crossorigin="anonymous"
+	async></script>

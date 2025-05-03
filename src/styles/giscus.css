@@ -1,0 +1,103 @@
+/*! MIT License
+ * Copyright (c) 2018 GitHub Inc.
+ * https://github.com/primer/primitives/blob/main/LICENSE
+ * https://github.com/giscus/giscus/blob/main/styles/themes/light.css
+ */
+
+main {
+	--color-prettylights-syntax-comment: #b38890;
+	--color-prettylights-syntax-constant: #cc9aa2;
+	--color-prettylights-syntax-entity: #cc9aa2;
+	--color-prettylights-syntax-storage-modifier-import: #cc9aa2;
+	--color-prettylights-syntax-entity-tag: #cc9aa2;
+	--color-prettylights-syntax-keyword: #cc9aa2;
+	--color-prettylights-syntax-string: #a2787d;
+	--color-prettylights-syntax-variable: #cc9aa2;
+	--color-prettylights-syntax-brackethighlighter-unmatched: #a35b63;
+	--color-prettylights-syntax-invalid-illegal-text: #fff;
+	--color-prettylights-syntax-invalid-illegal-bg: #cc9aa2;
+	--color-prettylights-syntax-carriage-return-text: #fff;
+	--color-prettylights-syntax-carriage-return-bg: #cc9aa2;
+	--color-prettylights-syntax-string-regexp: #a56d75;
+	--color-prettylights-syntax-markup-list: #885e64;
+	--color-prettylights-syntax-markup-heading: #cc9aa2;
+	--color-prettylights-syntax-markup-italic: #cc9aa2;
+	--color-prettylights-syntax-markup-bold: #cc9aa2;
+	--color-prettylights-syntax-markup-deleted-text: #a35b63;
+	--color-prettylights-syntax-markup-deleted-bg: #f5d9dc;
+	--color-prettylights-syntax-markup-inserted-text: #a35b63;
+	--color-prettylights-syntax-markup-inserted-bg: #f0dee0;
+	--color-prettylights-syntax-markup-changed-text: #cc9aa2;
+	--color-prettylights-syntax-markup-changed-bg: #f2cfd2;
+	--color-prettylights-syntax-markup-ignored-text: #eaeef2;
+	--color-prettylights-syntax-markup-ignored-bg: #cc9aa2;
+	--color-prettylights-syntax-meta-diff-range: #cc9aa2;
+	--color-prettylights-syntax-brackethighlighter-angle: #a57c82;
+	--color-prettylights-syntax-sublimelinter-gutter-mark: #b1979c;
+	--color-prettylights-syntax-constant-other-reference-link: #a2787d;
+	--color-btn-text: #402e30;
+	--color-btn-bg: #fbeff0;
+	--color-btn-border: #d3a7ae;
+	--color-btn-shadow: 0 1px 0 #e8c9cd;
+	--color-btn-inset-shadow: inset 0 1px 0 #ffffff40;
+	--color-btn-hover-bg: #f2d4d8;
+	--color-btn-hover-border: #c9969c;
+	--color-btn-active-bg: #efd0d4;
+	--color-btn-active-border: #c28990;
+	--color-btn-selected-bg: #eac7cc;
+	--color-btn-primary-text: #fff;
+	--color-btn-primary-bg: #cc9aa2;
+	--color-btn-primary-border: #b77f87;
+	--color-btn-primary-shadow: 0 1px 0 #b77f87;
+	--color-btn-primary-inset-shadow: inset 0 1px 0 #ffffff4d;
+	--color-btn-primary-hover-bg: #c28890;
+	--color-btn-primary-hover-border: #a9737a;
+	--color-btn-primary-selected-bg: #ba8087;
+	--color-btn-primary-selected-shadow: inset 0 1px 0 #40282c;
+	--color-btn-primary-disabled-text: #ffffffcc;
+	--color-btn-primary-disabled-bg: #e2bbc0;
+	--color-btn-primary-disabled-border: #d3a7ae;
+	--color-action-list-item-default-hover-bg: #f1d7db;
+	--color-segmented-control-bg: #f5e6e8;
+	--color-segmented-control-button-bg: #fff;
+	--color-segmented-control-button-selected-border: #b1979c;
+	--color-fg-default: #402e30;
+	--color-fg-muted: #7a5e61;
+	--color-fg-subtle: #9b7e84;
+	--color-canvas-default: #fff;
+	--color-canvas-overlay: #fff;
+	--color-canvas-inset: #fbeff0;
+	--color-canvas-subtle: #fbeff0;
+	--color-border-default: #e2bbc0;
+	--color-border-muted: #edd3d6;
+	--color-neutral-muted: #e8c9cd;
+	--color-accent-fg: #cc9aa2;
+	--color-accent-emphasis: #cc9aa2;
+	--color-accent-muted: #cc9aa266;
+	--color-accent-subtle: #fbeff0;
+	--color-success-fg: #a35b63;
+	--color-attention-fg: #b0656c;
+	--color-attention-muted: #e2b1b5;
+	--color-attention-subtle: #fdf0f2;
+	--color-danger-fg: #a0353f;
+	--color-danger-muted: #cc9aa280;
+	--color-danger-subtle: #fbeff0;
+	--color-primer-shadow-inset: inset 0 1px 0 #e8c9cd;
+	--color-scale-gray-1: #fbeff0;
+	--color-scale-blue-1: #f0dbe0;
+
+	--color-social-reaction-bg-hover: var(--color-scale-gray-1);
+	--color-social-reaction-bg-reacted-hover: var(--color-scale-blue-1);
+}
+
+main .pagination-loader-container {
+	background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line.svg");
+}
+
+main .gsc-loading-image {
+	background-image: url("https://github.githubassets.com/images/mona-loading-default.gif");
+}
+
+.btn-primary:active {
+    box-shadow: unset !important;
+}

@@ -1,0 +1,21 @@
+---
+import Basic from "../../layouts/Basic.astro";
+import Pagination from "../../components/Pagination.svelte";
+import { getAllTags, getTagsMap } from "../../utils/posts";
+
+export async function getStaticPaths() {
+	const tags = await getAllTags();
+	return tags.map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const filtered = await getTagsMap();
+const posts = filtered[tag];
+---
+
+<Basic title={`${tag} | Imken发电厂`}>
+	<h1 class="text-3xl text-bold mb-2">标签：{tag}</h1>
+	<div id="post-list">
+		<Pagination {posts} hidePaginator show />
+	</div>
+</Basic>

@@ -1,0 +1,21 @@
+---
+import Basic from "../../layouts/Basic.astro";
+import Pagination from "../../components/Pagination.svelte";
+import { getAllCategories, getCategoriesMap } from "../../utils/posts";
+
+export async function getStaticPaths() {
+	const categories = await getAllCategories();
+	return categories.map((category) => ({ params: { category } }));
+}
+
+const { category } = Astro.params;
+const filtered = await getCategoriesMap();
+const posts = filtered[category];
+---
+
+<Basic title={`${category} | Imken发电厂`}>
+	<h1 class="text-3xl text-bold mb-2">分类：{category}</h1>
+	<div id="post-list">
+		<Pagination {posts} hidePaginator show />
+	</div>
+</Basic>

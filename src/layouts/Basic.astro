@@ -1,0 +1,55 @@
+---
+import "../styles/global.css";
+
+import Footer from "../components/Footer.svelte";
+import Header from "../components/Header.astro";
+import SideBar from "../components/SideBar.svelte";
+
+import { getRecentPosts } from "../utils/posts";
+
+type Props = {
+	children: any;
+	description?: string;
+	title?: string;
+};
+
+const { description = "你好呀！", title = "Imken发电厂" } = Astro.props;
+const recentPosts = await getRecentPosts(5)
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1"
+		/>
+
+		<meta property="og:locale" content="zh_CN" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content="https://blog.imken.moe/" />
+		<meta property="og:site_name" content="Imken发电厂" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@immccn123" />
+
+		<title>{title}</title>
+	</head>
+
+	<body>
+		<div class="text-base px-5 mx-auto container max-w-[1200px] w-full text-base">
+			<Header />
+
+			<div class="clear">
+				<main class="md:w-[68%] md:float-left">
+					<slot />
+				</main>
+				<SideBar class="md:w-[26%] md:float-right" {recentPosts} client:idle />
+			</div>
+
+			<Footer client:idle />
+		</div>
+	</body>
+</html>

@@ -1,24 +1,25 @@
 <script lang="ts">
-	import MdiTag from '~icons/mdi/tag';
-	import MdiCollection from '~icons/mdi/collection';
+	import MdiTag from "~icons/mdi/tag";
+	import MdiCollection from "~icons/mdi/collection";
+	import FormattedDate from "./FormattedDate.svelte";
+	import { generateDescriptionFromHtml } from "../utils/description";
 
-	export let description = '',
+	export let description: string,
 		title: string,
 		href: string,
-		date: Date | string = 'unknown',
+		date: Date,
 		tags: string[] = [],
-		headerImage: string | undefined = undefined,
-		categories: string[] = [];
+		header: string | undefined = undefined,
+		categories: string[] = [],
+		html: string = "";
 </script>
 
-<div class="post-link mb-5 {headerImage ? 'lg:grid lg:grid-cols-2 lg:gap-4' : ''}">
-	{#if headerImage}
-		<img src={headerImage} alt="Header image of {title}" />
+<div class="post-link mb-5 border-b border-gray-100 p-2">
+	{#if header}
+		<img class="pb-2" src={header} alt="Header image of {title}" />
 	{/if}
 	<div>
-		<time class="mb-2" datetime={typeof date === 'string' ? date : date.toDateString()}>
-			{typeof date === 'string' ? date : date.toLocaleDateString()}
-		</time>
+		<FormattedDate {date} />
 		<h2 class="text-link text-3xl link-hover">
 			<a {href}>
 				<strong>{title}</strong>
@@ -43,7 +44,9 @@
 				{#if categories.length !== 0}
 					{#each categories as category, i}
 						<span>
-							<a class="link-hover" href="/category/{category}">{category}</a>
+							<a class="link-hover" href="/category/{category}"
+								>{category}</a
+							>
 							{#if i !== tags.length - 1}/{/if}
 						</span>
 					{/each}
@@ -52,6 +55,8 @@
 				{/if}
 			</span>
 		</div>
-		<p class="mt-2">{description}</p>
+		<p class="mt-2 text-content">
+			{description ?? generateDescriptionFromHtml(html)}
+		</p>
 	</div>
 </div>

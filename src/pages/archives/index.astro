@@ -1,0 +1,11 @@
+---
+import Basic from "../../layouts/Basic.astro";
+import Timeline from "../../components/Timeline.svelte";
+import { getTimeline } from "../../utils/posts";
+
+const timeline = await getTimeline();
+---
+
+<Basic title={"归档 | Imken发电厂"}>
+	<Timeline timeline={timeline} />
+</Basic>

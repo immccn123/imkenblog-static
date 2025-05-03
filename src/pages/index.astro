@@ -1,0 +1,18 @@
+---
+// index.astro
+import Page from "./page/[page].astro";
+import { getPaginatedPosts } from "../utils/posts";
+import { PER_PAGE } from "../consts";
+
+const pages = await getPaginatedPosts(PER_PAGE);
+const firstPage = pages[0];
+
+const pageProps = {
+	page: 1,
+	posts: firstPage,
+	totalPages: pages.length,
+	isHomePage: true,
+};
+---
+
+<Page {...pageProps} />

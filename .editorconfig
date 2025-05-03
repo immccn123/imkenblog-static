@@ -1,0 +1,5 @@
+root = true
+
+[*.{js,svelte,jsx,ts,mjs,tsx,css,astro,html}]
+indent_size = 4
+indent_style = tab

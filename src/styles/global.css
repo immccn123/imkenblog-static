@@ -1,0 +1,30 @@
+@import url("https://static.imken.moe/fonts/SourceHanSerifSC-VF/main.css");
+@import "tailwindcss";
+@plugin '@tailwindcss/typography';
+
+@theme {
+	--color-link: #cc9aa2;
+	--color-impink: #cc9aa2;
+	--color-base: #666;
+
+	--text-sm: 0.8em;
+	--text-content: 0.9em;
+}
+
+a:focus,
+a:active {
+	outline: gainsboro dotted 1px;
+}
+
+.link-hover:hover {
+	text-decoration: underline;
+}
+
+body {
+	font-family: "Source Han Serif SC VF";
+}
+
+
+::selection {
+	background-color: #c9717e34;
+}

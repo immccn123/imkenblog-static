@@ -1,0 +1,51 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BlogPost from "../../layouts/BlogPost.astro";
+import { render } from "astro:content";
+import Basic from "../../layouts/Basic.astro";
+import { generateDescriptionFromHtml } from "../../utils/description";
+import { getSeriesMap } from "../../utils/posts";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("blog");
+	const series = await getSeriesMap();
+
+	return posts
+		.sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
+		.map((post, i, self) => ({
+			params: { slug: post.id },
+			props: {
+				prev: self[i - 1]?.id,
+				post,
+				next: self[i + 1]?.id,
+				series: post.data.series
+					? series[post.data.series.slug]
+					: undefined,
+			},
+		}));
+}
+
+type Props = {
+	post: CollectionEntry<"blog">;
+	prev?: string;
+	next?: string;
+	series?: {
+		name?: string;
+		description?: string;
+		posts: CollectionEntry<"blog">[];
+	};
+};
+
+const { post, prev, next, series } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Basic
+	title={post.data.title + " | Imken发电厂"}
+	description={post.data.description ??
+		generateDescriptionFromHtml(post.rendered?.html ?? "没有描述")}
+>
+	<BlogPost {post} {prev} {next} {series}>
+		<Content />
+	</BlogPost>
+</Basic>

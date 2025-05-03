@@ -1,0 +1,32 @@
+---
+import { getPaginatedPosts } from "../../utils/posts";
+import Pagination from "../../components/Pagination.svelte";
+import Basic from "../../layouts/Basic.astro";
+import { PER_PAGE } from "../../consts";
+
+export async function getStaticPaths() {
+	const pages = await getPaginatedPosts(PER_PAGE);
+
+	return pages.map((_, i) => ({
+		params: { page: (i + 1).toString() },
+		props: {
+			page: i + 1,
+			posts: pages[i],
+			totalPages: pages.length,
+			isHomePage: false,
+		},
+	}));
+}
+
+const { page, posts, totalPages, isHomePage } = Astro.props;
+---
+
+<Basic title={(isHomePage ? `首页` : `第 ${page} 页`) + ` | Imken发电厂`}>
+	<div id="post-list">
+		<Pagination
+			{posts}
+			{page}
+			{totalPages}
+		/>
+	</div>
+</Basic>
