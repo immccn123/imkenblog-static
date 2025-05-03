@@ -176,30 +176,28 @@ const seriesNext = series
 	class="max-w-[1024px] text-content mx-auto lg:grid lg:grid-cols-2 lg:justify-stretch mt-10"
 >
 	{
-		prevPost && (
-			<a
-				href={`/archives/${prevPost.id}`}
-				rel="prev"
-				class="border-l border-t border-b max-lg:border-r rounded-l p-3 mb-5 text-link block max-lg:w-full"
-			>
-				<>
-					<span class="text-lg">←新一篇</span>
-					<br />
-				</>
-				{prevPost.data.title}
-			</a>
-		)
-	}
-	{
 		nextPost && (
 			<a
 				href={`/archives/${nextPost.id}`}
 				rel="next"
 				class="border rounded-r p-3 mb-5 text-md text-link text-right block max-lg:w-full"
 			>
-				<span class="text-lg">旧一篇→</span>
+				<span class="text-lg">←新一篇</span>
 				<br />
 				{nextPost.data.title}
+			</a>
+		)
+	}
+	{
+		prevPost && (
+			<a
+				href={`/archives/${prevPost.id}`}
+				rel="prev"
+				class="border-l border-t border-b max-lg:border-r rounded-l p-3 mb-5 text-link block max-lg:w-full"
+			>
+				<span class="text-lg">旧一篇→</span>
+				<br />
+				{prevPost.data.title}
 			</a>
 		)
 	}
